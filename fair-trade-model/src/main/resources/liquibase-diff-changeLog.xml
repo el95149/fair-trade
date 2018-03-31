@@ -1,0 +1,98 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+    http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+    <changeSet author="aanagnostopoulos (generated)" id="1522521996962-1">
+        <createTable tableName="TradeMessage">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="TradeMessagePK"/>
+            </column>
+            <column name="createDate" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="createUser" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="isActive" type="BIT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updateDate" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updateUser" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="amountBuy" type="DECIMAL(12, 2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="amountSell" type="DECIMAL(12, 2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="currencyFrom" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="currencyTo" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="originatingCountry" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="rate" type="DECIMAL(8, 4)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="timePlaced" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="aanagnostopoulos (generated)" id="1522521996962-2">
+        <createTable tableName="User_Tbl">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="User_TblPK"/>
+            </column>
+            <column name="createDate" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="createUser" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="isActive" type="BIT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updateDate" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updateUser" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="comments" type="VARCHAR(255)"/>
+            <column name="email" type="VARCHAR(255)"/>
+            <column name="firstName" type="VARCHAR(255)"/>
+            <column name="gender" type="VARCHAR(255)"/>
+            <column name="isExpired" type="BIT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="lastName" type="VARCHAR(255)"/>
+            <column name="password" type="VARCHAR(255)"/>
+            <column name="role" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="aanagnostopoulos (generated)" id="1522521996962-3">
+        <addUniqueConstraint columnNames="email" constraintName="UC_USER_TBLEMAIL_COL" tableName="User_Tbl"/>
+    </changeSet>
+    <changeSet author="aanagnostopoulos (generated)" id="1522521996962-4">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="TradeMessage" constraintName="FKmoytccyrmwwx86evbyh7lxpx" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="User_Tbl"/>
+    </changeSet>
+    <changeSet id="20180331_01" author="aanagnostopoulos">
+        <comment>Insert initial data</comment>
+        <sqlFile path="./01.sql"/>
+    </changeSet>
+</databaseChangeLog>

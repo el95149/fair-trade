@@ -1,6 +1,7 @@
 import centroids from '../centroids'
 import SockJS from 'sockjs-client'
 import Stomp from 'webstomp-client'
+import Vue from 'vue'
 
 export default {
   components: {},
@@ -10,7 +11,7 @@ export default {
     console.log('Map created')
   },
   mounted () {
-    this.socket = new SockJS('http://localhost:8080/api/websocket-endpoint')
+    this.socket = new SockJS(Vue.prototype.$apiURL + 'websocket-endpoint')
     this.stompClient = Stomp.over(this.socket)
     this.stompClient.connect({}, (frame) => {
       this.connected = true

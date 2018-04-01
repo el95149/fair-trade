@@ -65,7 +65,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 "resources/**",
                 "/api/tradeMessages/search/countByCountry",
                 "/api/tradeMessages/search/countByCurrencyMarket",
-                "/api/tradeMessages/currencies");
+                "/api/tradeMessages/currencies",
+                "/api/websocket-endpoint/**");
     }
 
     @Override

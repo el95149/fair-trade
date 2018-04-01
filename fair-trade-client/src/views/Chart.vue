@@ -28,6 +28,12 @@
         <hr class="mb-4"/>
 
         <line-chart :chart-data="chartData"/>
+
+        <b-alert show variant="primary">
+          <i class="fa fa-exclamation-triangle"></i>
+          This page will auto-refresh every hour
+        </b-alert>
+
       </b-card>
     </div>
   </div>

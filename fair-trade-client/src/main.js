@@ -16,6 +16,7 @@ import VueLodash from 'vue-lodash'
 import money from 'v-money'
 import moment from 'moment'
 import VueLayers from 'vuelayers'
+import 'vuelayers/lib/style.css'
 
 Vue.prototype.$apiURL = 'http://127.0.0.1:8080/api/'
 
@@ -137,25 +138,6 @@ Vue.mixin({
       })
       return entityURIs
     },
-    // TODO convert to auto-complete, to remove hard coded limit
-    getContexts () {
-      return this.$http.get('contexts?size=' + Vue.prototype.$maxPageSize)
-    },
-    getCompetentAuthorities () {
-      return this.$http.get('competentAuthorities?projection=simpleRole&size=1000')
-    },
-    getDocumentTypesByContext (context) {
-      return this.$http.get('documentTypes/search/findByContexts_Title?context=' + context + '&projection=simpleRole&size=' + Vue.prototype.$maxPageSize)
-    },
-    getDocumentTypes () {
-      return this.$http.get('documentTypes/')
-    },
-    getDepartments () {
-      return this.$http.get('departments?projection=simpleRole&size=' + Vue.prototype.$maxPageSize)
-    },
-    getUserAccessibleDepartments () {
-      return this.$http.get('accessibleDepartments?projection=simpleRole')
-    },
     checkPermissionsByUrl (url) {
       let resolve = this.$router.resolve(url)
       let allowed = true
@@ -163,118 +145,6 @@ Vue.mixin({
         allowed = this.$auth.check(resolve.route.meta.auth.roles)
       }
       return allowed
-    },
-    getContractTypes () {
-      return this.$http.get('contractTypes?projection=simpleRole&size=' + Vue.prototype.$maxPageSize)
-    },
-    getMunicipalSections () {
-      return this.$http.get('municipalSections?projection=simpleRole&size=' + Vue.prototype.$maxPageSize)
-    },
-    getOperationalAxes () {
-      return this.$http.get('operationalAxes?projection=simpleRole&size=' + Vue.prototype.$maxPageSize)
-    },
-    getFundingSources () {
-      return this.$http.get('fundingSources/search/findByCompletedPercentage?projection=simpleRole&size=' + Vue.prototype.$maxPageSize)
-    },
-    getCoreFundingSources () {
-      return this.$http.get('coreFundingSources?projection=simpleRole&size=' + Vue.prototype.$maxPageSize)
-    },
-    getAssignmentProcesses () {
-      return this.$http.get('assignmentProcesses?projection=simpleRole&size=' + Vue.prototype.$maxPageSize)
-    },
-    getAssignmentCriterias () {
-      return this.$http.get('assignmentCriterias?projection=simpleRole&size=' + Vue.prototype.$maxPageSize)
-    },
-    getBondIssuers () {
-      return this.$http.get('bondIssuers?projection=simpleRole&size=1000')
-    },
-    getCPVs () {
-      return this.$http.get('cPVs?projection=simpleRole&size=1000')
-    },
-    getCommitteeTypes () {
-      return this.$http.get('committeTypes?projection=simpleRole&size=1000')
-    },
-    getStudies () {
-      return this.$http.get('studies?projection=simpleRoleYear&size=1000')
-    },
-    getPrecontractual (id) {
-      return this.$http.get('precontractuals/' + id)
-    },
-    getPrecontractuals () {
-      return this.$http.get('precontractuals?projection=simpleRole&size=1000')
-    },
-    getActionApprovalStep (id) {
-      return this.$http.get('actionApprovalSteps/' + id)
-    },
-    getAuthorisingBodies () {
-      return this.$http.get('authorisingBodies?projection=simpleRole&size=1000')
-    },
-    getCommittees () {
-      return this.$http.get('committees?projection=simpleRole&size=1000')
-    },
-    getSuppliers () {
-      return this.$auth.check('Auxiliary_R') ? this.$http.get('suppliers?projection=inlinedSupplier&size=5000') : undefined
-    },
-    getBudgetSchemas () {
-      return this.$http.get('budgetSchemas?projection=budgetSchema&size=100')
-    },
-    searchSuppliers (query) {
-      let emptyResponse = {
-        data: {
-          _embedded: {
-            suppliers: []
-          }
-        }
-      }
-      if (!this.$auth.check('Auxiliary_R')) {
-        return Promise.resolve(emptyResponse)
-      }
-      this.isLoading = true
-      return this.$http.get('suppliers/search/findByQuery?projection=inlinedSupplier', {
-        params: {
-          query: query,
-          size: this.$autocompleteSearchSize
-        }
-      }).then(response => {
-        this.isLoading = false
-        return response
-      }).catch(e => {
-        this.isLoading = false
-        throw e
-      })
-    },
-    getPersons () {
-      return this.$http.get('persons?projection=simplePerson&size=1000')
-    },
-    getPrecontractualExecutionPlans (id) {
-      return this.$http.get('precontractuals/' + id + '/executionPlan')
-    },
-    getPrecontractualStep (id) {
-      return this.$http.get('precontractualSteps/' + id)
-    },
-    getDetails () {
-      return this.$http.get('details?projection=simpleRole&size=1000')
-    },
-    getSigners () {
-      return this.$http.get('signers?projection=simpleRole&size=1000')
-    },
-    getActTypes () {
-      return this.$http.get('actTypes?projection=simpleRole&size=1000')
-    },
-    getMediums () {
-      return this.$http.get('mediums?projection=simpleRole&size=1000')
-    },
-    getObjections () {
-      return this.$http.get('objections?projection=simpleObjection&size=1000')
-    },
-    getTenderRequests () {
-      return this.$http.get('tenderRequests?projection=inlinedTenderRequest&size=1000')
-    },
-    getPostings () {
-      return this.$http.get('postings?projection=inlinedPosting&size=1000')
-    },
-    getMinutesItemTypes () {
-      return this.$http.get('minutesItemTypes?projection=simpleRole&size=1000')
     },
     getMessage (key) {
       return key
@@ -307,42 +177,6 @@ Vue.mixin({
     },
     formatDurationDays (duration) {
       return duration === 1 ? duration + ' ημέρα' : duration + ' ημέρες'
-    },
-    limitReachedText (count) {
-      return 'και ' + count + ' ακόμα αποτελέσματα'
-    },
-    getPersonFullName ({firstName, lastName}) {
-      return `${firstName} ${lastName}`
-    },
-    supplierCustomLabel (supplier) {
-      return 'Επωνυμία: ' + supplier.companyName + ', ΑΦΜ: ' + supplier.vat
-    },
-    getObjectionLabel (objection) {
-      return this.getMessage(objection.objectionType) + '-' + objection.supplier.companyName
-    },
-    offerCustomLabel (offer) {
-      return offer.title + ', Προμηθευτής: (' + this.supplierCustomLabel(offer.supplier) + ')'
-    },
-    offerItemCustomLabel (offerItem) {
-      return this.getStudySectionLabel(offerItem.section) + ', Προσφερόμενο Ποσό: ' + this.formatAmount(offerItem.amount)
-    },
-    getStudySectionLabel (selectedOption, id) {
-      return selectedOption.title + ' (' + this.formatAmount(selectedOption.amount) + ')'
-    },
-    getConcessionaireLabel (concessionaire) {
-      return 'Όνομα: ' + concessionaire.offer.supplier.companyName + ', ΑΦΜ: ' + concessionaire.offer.supplier.vat
-    },
-    getDocumentTypeLabel (documentType) {
-      return this.getMessage(documentType.title)
-    },
-    getContractFinancingLabel (contractFinancing) {
-      return 'Αριθμός Παραστατικού: ' + contractFinancing.title
-    },
-    getFinancialCommitmentLabel (financialCommitment) {
-      return 'Αριθμός Δέσμευσης: ' + financialCommitment.title
-    },
-    getAssignmentProcessStepLabel (assignmentProcessStep) {
-      return assignmentProcessStep.order + ' - ' + this.getMessage(assignmentProcessStep.step.title)
     },
     handleSuccess (response) {
       this.success(this.$messages.successAction)

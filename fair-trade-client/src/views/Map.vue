@@ -1,23 +1,36 @@
 <template>
-  <vl-map :load-tiles-while-animating="true" :load-tiles-while-interacting="true">
-    <vl-view :zoom="2" :rotation="0"></vl-view>
+  <div class="wrapper">
+    <div class="animated fadeIn">
+      <b-card header="Today's Real-time Trade Message Map">
 
-    <template v-for="(marker, index) in markers">
-      <vl-feature :properties="{prop: 'value', prop2: 'value'}">
-        <vl-geom-point :coordinates="marker.coordinates"></vl-geom-point>
-        <vl-style-box>
-          <vl-style-circle>
-            <vl-style-stroke color="red"></vl-style-stroke>
-            <vl-style-fill color="red"></vl-style-fill>
-          </vl-style-circle>
-        </vl-style-box>
-      </vl-feature>
-    </template>
+        <vl-map :load-tiles-while-animating="true" :load-tiles-while-interacting="true">
+          <vl-view :zoom="2" :rotation="0"></vl-view>
 
-    <vl-layer-tile id="osm">
-      <vl-source-osm></vl-source-osm>
-    </vl-layer-tile>
+          <template v-for="(marker, index) in markers">
+            <vl-feature>
+              <vl-geom-point :coordinates="marker.coordinates"></vl-geom-point>
+              <vl-style-box>
+                <vl-style-circle>
+                  <vl-style-stroke color="red"></vl-style-stroke>
+                  <vl-style-fill color="red"></vl-style-fill>
+                </vl-style-circle>
+              </vl-style-box>
+            </vl-feature>
+          </template>
 
-  </vl-map>
+          <vl-layer-tile id="osm">
+            <vl-source-osm></vl-source-osm>
+          </vl-layer-tile>
+
+        </vl-map>
+
+        <b-alert show variant="primary" class="mt-3">
+          <i class="fa fa-exclamation-triangle"></i>
+          The map will auto-update every time a bunch of new Trade Messages is created
+        </b-alert>
+
+      </b-card>
+    </div>
+  </div>
 </template>
 <script src="./MapVM.js"></script>

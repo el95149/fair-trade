@@ -12,13 +12,24 @@ export default {
       this.refresh()
     })
   },
+  mounted () {
+    // poll server for new data every 1 hour
+    this.interval = setInterval(() => {
+      console.log('refreshing')
+      this.refresh()
+    }, 60 * 1000 * 60)
+  },
+  destroyed () {
+    clearInterval(this.interval)
+  },
   data () {
     return {
       currencies: [],
       startingTime: null,
       currencyFrom: 'EUR',
       currencyTo: 'GBP',
-      chartData: null
+      chartData: null,
+      interval: null
     }
   },
   methods: {

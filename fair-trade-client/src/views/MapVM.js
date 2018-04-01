@@ -5,16 +5,11 @@ import Stomp from 'webstomp-client'
 export default {
   components: {},
   created () {
+    this.startingTime = this.formatDateForFilters(new Date())
     this.refresh()
     console.log('Map created')
   },
   mounted () {
-    // poll server for new notifications every X minutes (deprecated, in favour of websockets)
-    // this.interval = setInterval(() => {
-    //   console.log('refreshing')
-    //   // this.refresh()
-    // }, 5 * 1000)
-
     this.socket = new SockJS('http://localhost:8080/api/websocket-endpoint')
     this.stompClient = Stomp.over(this.socket)
     this.stompClient.connect({}, (frame) => {
@@ -31,20 +26,17 @@ export default {
     console.log('Map mounted')
   },
   destroyed () {
-    // clearInterval(this.interval)
     this.stompClient.disconnect()
   },
   data () {
     return {
-      isConnected: false,
-      socketMessage: '',
-      interval: null,
+      startingTime: null,
       markers: []
     }
   },
   methods: {
     refresh () {
-      this.$http.get('tradeMessages/search/countByCountry?startTime=2018-01-01%2000:00:00.000', {
+      this.$http.get('tradeMessages/search/countByCountry?startTime=' + this.startingTime + ' 00:00:00', {
         transformResponse: [function (data) {
           var dataObj = JSON.parse(data)
           dataObj.forEach((value, index) => {

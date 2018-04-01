@@ -14,7 +14,7 @@ A proof of concept Trade Message application.
 * MySQL: 5.x+
 * JDK: 1.8+
 * Node.js: 6.0+
-* npm: 5.5+
+* npm: 5.8+ (IMPORTANT)
 
 ## Installation
 * Install front-end 

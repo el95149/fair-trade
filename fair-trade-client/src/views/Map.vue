@@ -24,12 +24,13 @@
 
         </vl-map>
 
-        <b-alert show variant="primary" class="mt-3">
-          <i class="fa fa-exclamation-triangle"></i>
-          The map will auto-update every time a bunch of new Trade Messages is created
-        </b-alert>
-
       </b-card>
+
+      <b-alert show variant="primary" class="mt-3">
+        <i class="fa fa-exclamation-triangle"></i>
+        The map will auto-update every time a bunch of new Trade Messages is created
+      </b-alert>
+
     </div>
   </div>
 </template>

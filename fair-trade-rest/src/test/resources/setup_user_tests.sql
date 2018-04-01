@@ -1,0 +1,1 @@
+DELETE FROM User_Tbl where id >= 2

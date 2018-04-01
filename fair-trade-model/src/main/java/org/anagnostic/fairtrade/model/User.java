@@ -24,9 +24,10 @@ public class User extends BaseEntity {
     @Basic
     @Size(min = 6, max=20)
     private String password;
-    @Basic
+    @Basic(optional = false)
+    @NotNull
     @Email
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String email;
     @Basic
     private String comments;

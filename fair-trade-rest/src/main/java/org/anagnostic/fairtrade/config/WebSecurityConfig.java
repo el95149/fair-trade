@@ -34,6 +34,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     /**
      * Register a CORS filter when in development, to allow for easier front-end development
+     *
      * @return
      */
     @Bean
@@ -61,7 +62,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         // endpoints with disabled authentication
         web.ignoring().antMatchers("/", "/index.html",
                 "/app/**",
-                "resources/**");
+                "resources/**",
+                "/api/tradeMessages/search/countByCountry",
+                "/api/tradeMessages/search/countByCurrencyMarket",
+                "/api/tradeMessages/currencies");
     }
 
     @Override

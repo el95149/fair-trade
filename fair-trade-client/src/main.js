@@ -15,7 +15,6 @@ import lodash from 'lodash'
 import VueLodash from 'vue-lodash'
 import money from 'v-money'
 import moment from 'moment'
-import FullCalendar from 'vue-full-calendar'
 import VueLayers from 'vuelayers'
 
 Vue.prototype.$apiURL = 'http://127.0.0.1:8080/api/'
@@ -91,8 +90,7 @@ Vue.use(money, {
   precision: 2,
   masked: false
 })
-// window.jQuery = window.$ = require('jquery')
-Vue.use(FullCalendar)
+
 Vue.use(VueLayers, {
   bindToProj: 'EPSG:4326'
 })

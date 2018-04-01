@@ -2,14 +2,6 @@
   <vl-map :load-tiles-while-animating="true" :load-tiles-while-interacting="true">
     <vl-view :zoom="2" :rotation="0"></vl-view>
 
-    <!--<vl-geoloc>-->
-    <!--<template slot-scope="ctx">-->
-    <!--<vl-feature>-->
-    <!--<vl-geom-point :coordinates="position"></vl-geom-point>-->
-    <!--</vl-feature>-->
-    <!--</template>-->
-    <!--</vl-geoloc>-->
-
     <template v-for="(marker, index) in markers">
       <vl-feature :properties="{prop: 'value', prop2: 'value'}">
         <vl-geom-point :coordinates="marker.coordinates"></vl-geom-point>

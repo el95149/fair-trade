@@ -1,4 +1,6 @@
 import centroids from '../centroids'
+import SockJS from 'sockjs-client'
+import Stomp from 'webstomp-client'
 
 export default {
   components: {},
@@ -7,19 +9,35 @@ export default {
     console.log('Map created')
   },
   mounted () {
-    // poll server for new notifications every X minutes
-    this.interval = setInterval(() => {
-      console.log('refreshing')
-      this.refresh()
-    }, 5 * 1000)
+    // poll server for new notifications every X minutes (deprecated, in favour of websockets)
+    // this.interval = setInterval(() => {
+    //   console.log('refreshing')
+    //   // this.refresh()
+    // }, 5 * 1000)
 
+    this.socket = new SockJS('http://localhost:8080/api/websocket-endpoint')
+    this.stompClient = Stomp.over(this.socket)
+    this.stompClient.connect({}, (frame) => {
+      this.connected = true
+      this.stompClient.subscribe('/global-message/tick', (tick) => {
+        let messageBody = JSON.parse(tick.body)
+        if (messageBody.content === 'TRADE_MESSAGES_UPDATED') {
+          this.refresh()
+        }
+      })
+    }, (error) => {
+      console.log(error)
+    })
     console.log('Map mounted')
   },
   destroyed () {
-    clearInterval(this.interval)
+    // clearInterval(this.interval)
+    this.stompClient.disconnect()
   },
   data () {
     return {
+      isConnected: false,
+      socketMessage: '',
       interval: null,
       markers: []
     }
@@ -44,7 +62,7 @@ export default {
       })
         .then(response => {
           this.markers = response.data
-          this.$message.success({message: 'Trade Messages refreshed', showClose: true, duration: 2000})
+          this.success('Trade Messages refreshed')
         })
     }
   }

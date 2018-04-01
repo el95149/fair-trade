@@ -19,7 +19,7 @@ public class User extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Gender gender;
     /**
-     * Password not audited. Password should be encoded, skipped for simplicity's sake
+     * Password should be encoded, skipped for simplicity's sake
      */
     @Basic
     @Size(min = 6, max=20)
